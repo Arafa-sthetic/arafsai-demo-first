@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import osasssss
+import osassss
 
 import sys
 import asyncio
