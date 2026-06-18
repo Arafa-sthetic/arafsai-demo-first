@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import asyncio
-from memory.jarvis_memory import _get_recent_entries_sync, get_recent_conversations
+from memory.arafsai_memory import _get_recent_entries_sync, get_recent_conversations
 
 # Test sync retrieval
 print('=== Testing sync retrieval ===')

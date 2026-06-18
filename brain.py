@@ -1,10 +1,10 @@
 from dotenv import load_dotenv
-import os
 
-import sys
-import asyncio
 import subprocess
 import logging
+import os
+import sys
+import asyncio
 import re
 
 from livekit import agents
@@ -13,37 +13,22 @@ from livekit.plugins import (
     google,
     noise_cancellation,
 )
-from auto_thinking import arafsaiAutoThinking
 from arafsai_prompt import behavior_prompts, Reply_prompts
-from arafsai_screenshot import screenshot_tool
 from arafsai_google_search import google_search, get_current_datetime
+from arafsai_get_whether import get_weather
 from memory_store import ConversationMemory
-memory = ConversationMemory(user_id="Arafsai_User")
-from memory_interceptor import MEMORY_KEYWORDS
+
 from arafsai_get_whether import get_weather
 from arafsai_window_CTRL import open, close, folder_file
 from arafsai_file_open import Play_file
 from keyboard_mouse_CTRL import move_cursor_tool, mouse_click_tool, scroll_cursor_tool, type_text_tool, press_key_tool, swipe_gesture_tool, press_hotkey_tool, control_volume_tool
 
 load_dotenv()
-if not os.getenv("GOOGLE_API_KEY"):
-    base_dir = os.path.dirname(__file__)
-    try:
-        if getattr(sys, "frozen", False):
-            base_dir = os.path.dirname(sys.executable)
-    except Exception:
-        pass
-    for p in [os.path.join(base_dir, ".env"), os.path.join(os.path.dirname(base_dir), ".env")]:
-        try:
-            if os.path.exists(p):
-                load_dotenv(p)
-                break
-        except Exception:
-            pass
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-ENABLE_MEMORY_INTERCEPTOR = False
+# Memory interceptor flag - set to True to enable client-side memory injection
+ENABLE_MEMORY_INTERCEPTOR = True
 
 
 class Assistant(Agent):
@@ -54,22 +39,18 @@ class Assistant(Agent):
                             get_current_datetime,
                             get_weather,
                             open, 
-                            close, 
-                            #load_memory, save_memory,
-                            #get_recent_conversations, 
-                            #add_memory_entry, 
+                            close,  
                             folder_file,
                             Play_file,  
                             screenshot_tool, 
-                            move_cursor_tool,
+                            move_cursor_tool, 
                             mouse_click_tool, 
-                            scroll_cursor_tool, 
+                            scroll_cursor_tool,
                             type_text_tool, 
                             press_key_tool, 
                             press_hotkey_tool, 
-                            control_volume_tool, #
-                            swipe_gesture_tool,
-                            
+                            control_volume_tool, 
+                            swipe_gesture_tool 
                             
                          ]
                          )
@@ -81,16 +62,13 @@ async def entrypoint(ctx: agents.JobContext):
     retry_count = 0
     base_wait_time = 2  # Increased from 2
     
-    auto_thinker = arafsaiAutoThinking()
-    print("🧠 arafsaiAutoThinking background assistant started")
-    
     while retry_count < max_retries:
         try:
             print(f"\n🚀 Starting agent session (attempt {retry_count + 1}/{max_retries})...")
             
             session = AgentSession(
                 llm=google.beta.realtime.RealtimeModel(
-                    voice="Leda"
+                    voice="Charon"
                 )
             )
             
@@ -99,7 +77,7 @@ async def entrypoint(ctx: agents.JobContext):
                 agent=Assistant(),
                 room_input_options=RoomInputOptions(
                     noise_cancellation=noise_cancellation.BVC(),
-                    video_enabled=False 
+                    video_enabled=True 
                 ),
             )
 
@@ -147,7 +125,7 @@ async def entrypoint(ctx: agents.JobContext):
                 if any(keyword in error_msg for keyword in ["timed out", "timeout", "connection", "websocket", "closed"]):
                     if retry_count < max_retries - 1:
                         retry_count += 1
-                        wait_time = base_wait_time * retry_count  # Exponential backoff
+                        wait_time = 1  # Exponential backoff
                         print(f"🔄 Connection issue detected. Retrying in {wait_time}s... ({retry_count}/{max_retries})")
                         await asyncio.sleep(wait_time)
                         continue
@@ -166,7 +144,7 @@ async def entrypoint(ctx: agents.JobContext):
             retry_count += 1
             
             if retry_count < max_retries:
-                wait_time = base_wait_time * retry_count  # Exponential backoff
+                wait_time = 1  # Exponential backoff
                 print(f"⏳ Waiting {wait_time}s before retry...")
                 await asyncio.sleep(wait_time)
             else:

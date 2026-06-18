@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 """
-Direct test of memory system — simulates what Jarvis should do
+Direct test of memory system — simulates what arafsai should do
 when user asks "याद है?" or similar questions.
 """
 import asyncio
-from memory.jarvis_memory import get_recent_conversations
+from memory.arafsai_memory import get_recent_conversations
 
 async def main():
     print("=" * 60)
-    print("MEMORY SYSTEM TEST - Simulating Jarvis Response")
+    print("MEMORY SYSTEM TEST - Simulating arafsai Response")
     print("=" * 60)
     print()
     
@@ -29,8 +29,8 @@ async def main():
         # Call the memory retrieval tool
         result = await get_recent_conversations(10)
         
-        # Jarvis would then respond with this:
-        print("Jarvis Response:")
+        # arafsai would then respond with this:
+        print("arafsai Response:")
         print("-" * 60)
         print(f"Sir, आपकी याद है? जी, मुझे सब याद है। आपकी पिछली बातचीत:\n\n{result}")
         print("-" * 60)

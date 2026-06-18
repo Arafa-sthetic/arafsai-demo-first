@@ -1,10 +1,10 @@
 """
 Memory Interceptor - Detects memory keywords and pre-fetches conversation context
-before sending to LLM. This ensures Jarvis always has context about past conversations
+before sending to LLM. This ensures arafsai always has context about past conversations
 when asked, bypassing unreliable LLM tool-calling behavior.
 """
 import asyncio
-from memory.jarvis_memory import get_recent_conversations
+#from memory.arafsai_memory import get_recent_conversations
 
 # Memory retrieval keywords in Hindi and English
 MEMORY_KEYWORDS = [

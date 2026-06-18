@@ -1,4 +1,4 @@
-# 🤖 Jarvis Advanced Setup Guide (LiveKit + Google Realtime API)
+# 🤖 arafsai Advanced Setup Guide (LiveKit + Google Realtime API)
 
 This guide explains EVERYTHING step‑by‑step in simple Hinglish + English. Follow line by line.
 
@@ -12,7 +12,7 @@ When you run:
 python agent.py console
 ```
 
-Jarvis performs these steps:
+arafsai performs these steps:
 
 1. Load environment variables (.env)
 2. Connect to LiveKit Cloud
@@ -32,12 +32,12 @@ Your error happens in Step 5.
 Your project should look like this:
 
 ```
-Jarvis/
+arafsai/
 │
 ├── agent.py
 ├── memory.py
 ├── test_memory_persistence.py
-├── jarvis_gui.py
+├── arafsai_gui.py
 ├── .env
 ├── requirements.txt
 └── .venv/
@@ -57,7 +57,7 @@ memory.py → Memory system
 Open terminal in project folder:
 
 ```
-cd path/to/Jarvis
+cd path/to/arafsai
 ```
 
 Activate:
@@ -86,7 +86,7 @@ It should contain:
 
 ```
 GOOGLE_API_KEY=your_api_key_here
-LIVEKIT_URL=wss://jarvis-xxxx.livekit.cloud
+LIVEKIT_URL=wss://arafsai-xxxx.livekit.cloud
 LIVEKIT_API_KEY=xxxx
 LIVEKIT_API_SECRET=xxxx
 ```
@@ -181,7 +181,7 @@ python -c "from livekit.agents import config; print(config.settings.livekit_url)
 Expected:
 
 ```
-wss://jarvis-xxxx.livekit.cloud
+wss://arafsai-xxxx.livekit.cloud
 ```
 
 If None → LiveKit not configured
@@ -210,7 +210,7 @@ Removes extra async load
 
 ---
 
-# STEP 8: Run Jarvis
+# STEP 8: Run arafsai
 
 Run:
 
@@ -223,7 +223,7 @@ Expected:
 ```
 Connected to LiveKit
 Google setupComplete received
-Jarvis ready
+arafsai ready
 ```
 
 ---
@@ -303,13 +303,13 @@ python agent.py console
 Then speak:
 
 ```
-Hello Jarvis
+Hello arafsai
 ```
 
 Expected:
 
 ```
-Jarvis replies
+arafsai replies
 ```
 
 ---
@@ -324,7 +324,7 @@ generate_reply timed out
 
 Means:
 
-Jarvis connected
+arafsai connected
 BUT
 Google did not respond
 
@@ -357,7 +357,7 @@ LiveKit Connected
 Google setupComplete received
 Listening...
 User speaking...
-Jarvis responding...
+arafsai responding...
 ```
 
 ---
@@ -374,7 +374,7 @@ Realtime is unstable sometimes
 
 # DONE
 
-Your Jarvis will work perfectly after this setup.
+Your arafsai will work perfectly after this setup.
 
 ---
 
